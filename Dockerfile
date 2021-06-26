@@ -57,4 +57,5 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         pip install logbook  && \
         pip install uwsgi  && \
         pip install ShopifyAPI  && \
+        pip install basic-shopify-api  && \
         apk del .build-dependencies && rm -rf /var/cache/* && rm -rf /root/.cache && rm -rf /root/.ash_history
