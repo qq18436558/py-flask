@@ -62,5 +62,5 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         pip install flower  && \
         pip install redis  && \
         pip install flask-socketio  && \
-        pip install Flask-Session && \
+        sed -i -e "s/2020-04/2021-04/g" /usr/local/lib/python3.8/site-packages/basic_shopify_api/constants.py && \
         apk del .build-dependencies && rm -rf /var/cache/* && rm -rf /root/.cache && rm -rf /root/.ash_history
