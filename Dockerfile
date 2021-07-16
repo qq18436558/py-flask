@@ -1,9 +1,8 @@
-FROM python:3.8.6-alpine3.12
+FROM python:3.8.11-alpine3.13
 
 ENV LANG C.UTF-8
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
-        apk update && apk add --no-cache libcurl libxslt pcre && \
+RUN apk update && apk add --no-cache libcurl libxslt pcre && \
         apk add --no-cache --virtual .build-dependencies g++ gcc musl-dev libxslt-dev jpeg-dev zlib-dev build-base curl-dev linux-headers pcre-dev && \
         pip install alembic==1.4.3  && \
         pip install blinker==1.4  && \
@@ -56,11 +55,13 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
         pip install PyExecJS  && \
         pip install logbook  && \
         pip install uwsgi  && \
-        pip install ShopifyAPI  && \
         pip install basic-shopify-api  && \
         pip install celery  && \
         pip install flower  && \
         pip install redis  && \
         pip install flask-socketio  && \
+        wget https://github.com/Shopify/shopify_python_api/archive/refs/tags/v8.4.2.tar.gz -O /tmp/shopify_python_api_8.4.2.tar.gz && \
+        tar xzf /tmp/shopify_python_api_8.4.2.tar.gz -C /tmp/ && cd /tmp/shopify_python_api-8.4.2 && \
+        python setup.py sdist && pip install --upgrade dist/ShopifyAPI-8.4.2.tar.gz && \
         sed -i -e "s/2020-04/2021-07/g" /usr/local/lib/python3.8/site-packages/basic_shopify_api/constants.py && \
-        apk del .build-dependencies && rm -rf /var/cache/* && rm -rf /root/.cache && rm -rf /root/.ash_history
+        apk del .build-dependencies && rm -rf /tmp/* && rm -rf /var/cache/* && rm -rf /root/.cache && rm -rf /root/.ash_history
