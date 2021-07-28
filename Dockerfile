@@ -38,4 +38,6 @@ RUN apk update && apk add --no-cache libcurl libxslt pcre && \
         tar xzf /tmp/shopify_python_api_8.4.2.tar.gz -C /tmp/ && cd /tmp/shopify_python_api-8.4.2 && \
         python setup.py sdist && pip install --upgrade dist/ShopifyAPI-8.4.2.tar.gz && \
         sed -i -e "s/2020-04/2021-07/g" /usr/local/lib/python3.8/site-packages/basic_shopify_api/constants.py && \
+        sed -i -e "s/link\[result\[1\]\] = result\[0\]/link\[result\[1\]\[0\:4\]\] = result\[0\]/g" /usr/local/lib/python3.8/site-packages/basic_shopify_api/clients/common.py && \
+        sed -i -e "s/<.*page_info=(\[a-zA-Z0-9\\\-_\]+)\.\*>/<.*?page_info=([a-zA-Z0-9\-_]+).*?>/g" /usr/local/lib/python3.8/site-packages/basic_shopify_api/constants.py && \
         apk del .build-dependencies && rm -rf /tmp/* && rm -rf /var/cache/* && rm -rf /root/.cache && rm -rf /root/.ash_history
